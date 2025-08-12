@@ -4,15 +4,11 @@
   "description": "A modern job application tracking platform with React frontend and Node.js backend",
   "main": "index.js",
   "scripts": {
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm start",
     "build": "cd frontend && npm run build",
-    "start": "cd backend && npm start",
-    "test": "echo \"No tests specified\" && exit 0",
-    "lint": "cd frontend && npm run lint",
-    "lint:fix": "cd frontend && npm run lint:fix"
+    "start": "cd backend && npm start"
   },
   "keywords": [
     "job-tracker",
@@ -32,13 +28,5 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/job-tracker-web.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/job-tracker-web/issues"
-  },
-  "homepage": "https://github.com/yourusername/job-tracker-web#readme"
+  }
 }
