@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const connectDB = require('./config/database');
@@ -52,11 +53,55 @@ if (process.env.NODE_ENV === 'development') {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  
   res.status(200).json({
     status: 'OK',
     message: 'Job Tracker API is running',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    database: {
+      status: dbStatus,
+      host: mongoose.connection.host || 'unknown',
+      name: mongoose.connection.name || 'unknown'
+    }
+  });
+});
+
+// Database status endpoint
+app.get('/api/db-status', (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  let status, message;
+  
+  switch(dbState) {
+    case 0: // disconnected
+      status = 'disconnected';
+      message = 'Database is disconnected';
+      break;
+    case 1: // connected
+      status = 'connected';
+      message = 'Database is connected and ready';
+      break;
+    case 2: // connecting
+      status = 'connecting';
+      message = 'Database is connecting...';
+      break;
+    case 3: // disconnecting
+      status = 'disconnecting';
+      message = 'Database is disconnecting...';
+      break;
+    default:
+      status = 'unknown';
+      message = 'Database state is unknown';
+  }
+  
+  res.status(200).json({
+    status: status,
+    message: message,
+    readyState: dbState,
+    host: mongoose.connection.host || 'unknown',
+    database: mongoose.connection.name || 'unknown',
+    timestamp: new Date().toISOString()
   });
 });
 

@@ -51,9 +51,18 @@ Scope: Production, Preview, Development
 2. Click **"Redeploy"** on your latest deployment
 3. Wait for the build to complete
 
-### **Step 4: Test**
-1. Test the health check: `https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app/api/health`
-2. Test the frontend: `https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app`
+### **Step 4: Test Database Connection**
+1. **Test the health check**: `https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app/api/health`
+   - This will show database connection status
+   - Look for `"database": { "status": "connected" }`
+
+2. **Test database status directly**: `https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app/api/db-status`
+   - Shows detailed database connection information
+   - ReadyState: 1 = connected, 0 = disconnected
+
+3. **Test the frontend**: `https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app`
+
+4. **Check Vercel logs** for database connection messages
 
 ## **🔍 What Each Variable Does:**
 
@@ -85,6 +94,45 @@ After setting these variables and redeploying:
 - ✅ Backend API responds at `/api/health`
 - ✅ No more "connection refused" errors
 - ✅ Your app works in production!
+
+## **🔍 How to Know Your Database is Connected:**
+
+### **1. Check the Health Endpoint Response:**
+```json
+{
+  "status": "OK",
+  "message": "Job Tracker API is running",
+  "database": {
+    "status": "connected",
+    "host": "your-cluster.mongodb.net",
+    "name": "job-tracker"
+  }
+}
+```
+
+### **2. Check the Database Status Endpoint:**
+```json
+{
+  "status": "connected",
+  "message": "Database is connected and ready",
+  "readyState": 1,
+  "host": "your-cluster.mongodb.net",
+  "database": "job-tracker"
+}
+```
+
+### **3. Check Vercel Build Logs:**
+Look for these messages:
+- ✅ `🔌 Attempting to connect to MongoDB...`
+- ✅ `✅ MongoDB Connected Successfully!`
+- ✅ `🌐 Host: your-cluster.mongodb.net`
+- ✅ `🗄️ Database: job-tracker`
+
+### **4. If Database Connection Fails:**
+You'll see these error messages:
+- ❌ `❌ Error connecting to MongoDB: [error message]`
+- ❌ `💡 Make sure your MONGODB_URI environment variable is set correctly`
+- ❌ `💡 Check if your MongoDB Atlas cluster is accessible from Vercel`
 
 ## **📞 Need Help?**
 
