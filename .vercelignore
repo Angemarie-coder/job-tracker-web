@@ -1,11 +1,5 @@
 # Backend (not needed for frontend deployment)
 backend/
-backend/*
-
-# Documentation
-*.md
-DEPLOYMENT.md
-AUTHENTICATION_FLOW.md
 
 # Environment files
 .env*
@@ -13,10 +7,6 @@ env.*
 
 # Git files
 .git/
-.gitignore
-
-# Node modules (will be installed during build)
-node_modules/
 
 # Build artifacts
 build/
