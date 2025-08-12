@@ -22,7 +22,7 @@ connectDB();
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL, 'https://your-vercel-domain.vercel.app']
+    ? [process.env.FRONTEND_URL, 'https://job-tracker-rj0narvba-angemarie-coders-projects.vercel.app']
     : 'http://localhost:3000',
   credentials: true
 }));
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
     message: 'Job Tracker API is running',
