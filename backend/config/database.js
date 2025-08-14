@@ -38,7 +38,7 @@ const connectDB = async () => {
   } catch (error) {
     console.error('❌ Error connecting to MongoDB:', error.message);
     console.error('💡 Make sure your MONGODB_URI environment variable is set correctly');
-    console.error('💡 Check if your MongoDB Atlas cluster is accessible from Vercel');
+    console.error('💡 Check if your MongoDB Atlas cluster is accessible from your hosting provider');
     process.exit(1);
   }
 };
